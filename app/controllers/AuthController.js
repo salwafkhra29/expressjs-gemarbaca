@@ -8,7 +8,7 @@ register = (req, res) => {
 		if (findUser) {
 			return res.status(400).send({
 				code: 400,
-				message: "Username is already taken!",
+				message: "Username sudah terdaftar!",
 			});
 		}
 
@@ -21,7 +21,7 @@ register = (req, res) => {
 			.then((user) => {
 				res.status(201).send({
 					code: 201,
-					message: "Registered Successfully!",
+					message: "Register Sukses!",
 					user: {
 						id: user._id,
 						username: user.username,
@@ -45,7 +45,7 @@ login = (req, res) => {
 		if (!user) {
 			return res
 				.status(404)
-				.send({ code: 404, messaage: "Username has not registered!" });
+				.send({ code: 404, messaage: "Akun belum terdaftar!" });
 		}
 
 		const passwordIsValid = bcrypt.compareSync(
@@ -60,7 +60,7 @@ login = (req, res) => {
 
 		return res.status(200).send({
 			code: 200,
-			message: "Logged in!",
+			message: "Login Sukses!",
 			user: {
 				username: user.username,
 			},
