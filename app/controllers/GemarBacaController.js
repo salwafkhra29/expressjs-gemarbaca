@@ -41,7 +41,9 @@ store = (req, res) => {
 	const gemarBaca = new GemarBaca({
 		title: req.body.title,
 		about: req.body.about,
+		description: req.body?.description,
 		image_id: req.body?.image_id,
+		user_id: req.body?.user_id,
 	});
 
 	// Save GemarBaca in the database
@@ -86,7 +88,9 @@ updateGemarBaca = (req, res) => {
 		{
 			title: req.body.title,
 			about: req.body.about,
+			description: req.body?.description,
 			image_id: req.body?.image_id,
+			user_id: req.body?.user_id,
 		},
 		{ new: true }
 	)
