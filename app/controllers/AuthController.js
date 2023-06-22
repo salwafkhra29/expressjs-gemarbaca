@@ -62,6 +62,7 @@ login = (req, res) => {
 			code: 200,
 			message: "Login Sukses!",
 			user: {
+				id: user._id,
 				username: user.username,
 			},
 		});
