@@ -4,30 +4,40 @@ const User = require("../models/UserModel");
 const bcrypt = require("bcryptjs");
 
 register = (req, res) => {
-	const user = new User({
-		username: req.body.username,
-		password: bcrypt.hashSync(req.body.password, 10),
-	});
+	User.findOne({ username: req.body.username }).then((findUser) => {
+		if (findUser) {
+			return res.status(400).send({
+				code: 400,
+				message: "Username is already taken!",
+			});
+		}
 
-	user.save()
-		.then((user) => {
-			res.status(201).send({
-				code: 201,
-				message: "Registered Successfully!",
-				user: {
-					username: user.username,
-					createdAt: user.createdAt,
-				},
-			});
-		})
-		.catch((err) => {
-			res.status(500).send({
-				code: 500,
-				message:
-					err.message ||
-					"Some error occurred while creating the User.",
-			});
+		const user = new User({
+			username: req.body.username,
+			password: bcrypt.hashSync(req.body.password, 10),
 		});
+
+		user.save()
+			.then((user) => {
+				res.status(201).send({
+					code: 201,
+					message: "Registered Successfully!",
+					user: {
+						id: user._id,
+						username: user.username,
+						createdAt: user.createdAt,
+					},
+				});
+			})
+			.catch((err) => {
+				res.status(500).send({
+					code: 500,
+					message:
+						err.message ||
+						"Some error occurred while creating the User.",
+				});
+			});
+	});
 };
 
 login = (req, res) => {
