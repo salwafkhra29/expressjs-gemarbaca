@@ -42,8 +42,8 @@ store = (req, res) => {
 		title: req.body.title,
 		about: req.body.about,
 		description: req.body?.description,
-		image_id: req.body?.image_id,
-		user_id: req.body?.user_id,
+		image: req.body?.image,
+		userId: req.body?.userId,
 	});
 
 	// Save GemarBaca in the database
@@ -89,8 +89,8 @@ updateGemarBaca = (req, res) => {
 			title: req.body.title,
 			about: req.body.about,
 			description: req.body?.description,
-			image_id: req.body?.image_id,
-			user_id: req.body?.user_id,
+			image: req.body?.image,
+			userId: req.body?.userId,
 		},
 		{ new: true }
 	)

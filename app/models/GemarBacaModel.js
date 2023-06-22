@@ -16,10 +16,10 @@ const gemarBacaSchema = new Schema(
 		description: {
 			type: String,
 		},
-		image_id: {
+		image: {
 			type: String,
 		},
-		user_id: {
+		userId: {
 			type: String,
 		},
 	},
