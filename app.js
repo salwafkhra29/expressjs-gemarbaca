@@ -16,11 +16,9 @@ app.get("/", (req, res) => {
 
 const AuthRoute = require("./app/routes/AuthRoute");
 const GemarBacaRoute = require("./app/routes/GemarBacaRoute");
-const ImageRoute = require("./app/routes/ImageRoute");
 
 app.use("/api", AuthRoute);
 app.use("/api/gemar-baca", GemarBacaRoute);
-app.use("/api/image", ImageRoute);
 
 /** End Import Router */
 
