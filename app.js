@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 /** Import Router --> Here <-- */
 app.get("/", (req, res) => {
 	res.send({
-		message: "Welcome to NodeJS-Express with MongoDB : JWT Authentication",
+		message: "Welcome to NodeJS-Express with MongoDB : Gemar Baca API",
 	});
 });
 
