@@ -1,6 +1,26 @@
 const config = require("../config");
 const Image = require("../models/ImageModel");
 
+find = (req, res) => {
+	const { id } = req.params;
+	Image.findById(id)
+		.then((image) => {
+			res.status(200).send({
+				code: 200,
+				message: "Success",
+				image: image,
+			});
+		})
+		.catch((err) => {
+			res.status(500).send({
+				code: 500,
+				message:
+					err.message ||
+					"Some error occurred while retrieving Image.",
+			});
+		});
+};
+
 store = (req, res) => {
 	const { base64 } = req.body;
 	try {
@@ -28,6 +48,63 @@ store = (req, res) => {
 	} catch (error) {}
 };
 
+updateImage = (req, res) => {
+	const { id } = req.params;
+	const { base64 } = req.body;
+
+	Image.findByIdAndUpdate(id, {
+		image: base64,
+	})
+
+		.then((image) => {
+			if (!image) {
+				return res.status(404).send({
+					code: 404,
+					message: "Image not found with id " + req.params.id,
+				});
+			}
+			res.status(200).send({
+				code: 200,
+				message: "Success update image",
+				image: image,
+			});
+		})
+		.catch((err) => {
+			res.status(500).send({
+				code: 500,
+				message:
+					err.message ||
+					"Some error occurred while retrieving Image.",
+			});
+		});
+};
+
+deleteImage = (req, res) => {
+	const { id } = req.params;
+
+	Image.findByIdAndRemove(id)
+		.then((image) => {
+			if (!image) {
+				return res.status(404).send({
+					code: 404,
+					message: "Image not found with id " + req.params.id,
+				});
+			}
+			res.status(200).send({
+				code: 200,
+				message: "Success",
+			});
+		})
+		.catch((err) => {
+			res.status(500).send({
+				code: 500,
+				message:
+					err.message ||
+					"Some error occurred while retrieving Image.",
+			});
+		});
+};
+
 // const upload = multer({
 // 	storage: multer.diskStorage({
 // 		destination: "uploads/",
@@ -53,4 +130,4 @@ store = (req, res) => {
 // 	res.json({ message: "File uploaded" });
 // });
 
-module.exports = { store };
+module.exports = { store, find, updateImage, deleteImage };
