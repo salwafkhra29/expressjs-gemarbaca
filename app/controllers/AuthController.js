@@ -1,0 +1,61 @@
+const config = require("../config");
+const User = require("../models/UserModel");
+
+const bcrypt = require("bcryptjs");
+
+register = (req, res) => {
+	const user = new User({
+		username: req.body.username,
+		password: bcrypt.hashSync(req.body.password, 10),
+	});
+
+	user.save()
+		.then((user) => {
+			res.status(201).send({
+				code: 201,
+				message: "Registered Successfully!",
+				user: {
+					username: user.username,
+					createdAt: user.createdAt,
+				},
+			});
+		})
+		.catch((err) => {
+			res.status(500).send({
+				code: 500,
+				message:
+					err.message ||
+					"Some error occurred while creating the User.",
+			});
+		});
+};
+
+login = (req, res) => {
+	User.findOne({ username: req.body.username }).then((user) => {
+		if (!user) {
+			return res
+				.status(404)
+				.send({ code: 404, messaage: "Username has not registered!" });
+		}
+
+		const passwordIsValid = bcrypt.compareSync(
+			req.body.password,
+			user.password
+		);
+
+		if (!passwordIsValid)
+			return res
+				.status(401)
+				.send({ code: 401, messaage: "Invalid Password!" });
+
+		return res.status(200).send({
+			code: 200,
+			message: "Logged in!",
+			user: {
+				username: user.username,
+			},
+		});
+	});
+};
+
+module.exports = { register, login };
