@@ -3,7 +3,7 @@ const GemarBaca = require("../models/GemarBacaModel");
 
 fetchAll = (req, res) => {
 	GemarBaca.find()
-		.select("_id title about imageUrl createdAt updatedAt")
+		.select("_id title about description image userId createdAt updatedAt")
 		.then((gemarBacas) => {
 			res.status(200).send({
 				code: 200,
